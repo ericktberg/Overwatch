@@ -1,0 +1,271 @@
+ html {
+	 overflow:hidden;
+ }
+ 
+ 
+ body {
+	 overflow:hidden;
+ }
+ 
+ form {
+	 margin: 10px 10px 10px 10px;
+	 font-family: sans-serif;
+ }
+ 
+ div { 
+	position: relative;
+ }
+ 
+ div#TabbedInfo {
+	 position:relative;
+	 float: left;
+	 width: 370px;
+	 height: 100%;
+ }
+ 
+ div#selected {
+ }
+ 
+ div#graph {
+	 position: absolute;
+	 left: 20%;
+	 width: 80%;
+	 height: 100%;
+	 background-color: white;
+	 z-index: 1;
+ }
+ 
+ div#heroes {
+	 position: absolute;
+	 bottom: 0px;
+ }
+ 
+ div#maps {
+	 position: absolute;
+ }
+ 
+ div#content {
+	 position: absolute;
+	 height: 98%;
+	 width: 98%;
+ }
+ 
+ div#legend {
+	 position: relative;
+	 width: 150px;
+	 height: 500px;
+	 right: 0;
+	 top: 200px;
+ }
+ 
+ div.tabContent {
+	 display: none;
+	 padding: 6px 12px;
+	 border: none;
+ }
+ 
+ div.tabContent.active {
+	 display: block;
+	 
+ }
+ 
+ div.graphInfo {
+	 width: 78%;
+	 left: 22%;
+	 right: 2%;
+	 z-index:4;
+ }
+ 
+ div.window {
+	 border: 1px solid;
+	 border-color: #FAA02E;
+ 	 
+ 	 border-radius: 2.5px;
+	 background-color: whitesmoke;
+	 box-shadow: 0px 0px 10px grey;
+	 z-index: 4;
+ }
+ 
+ 
+ h1 {
+	color: #060606;
+ }
+ 
+ h1#title {
+	 position: relative;
+ }
+ 
+ text.subtitle {
+	 display: block;
+	 position: relative;
+	 font-family: sans-serif;
+	 font-size: 20px;
+	 font-weight: bold;
+	 text-align: center;
+	 
+	 margin: 15px 0px 5px 0px;
+ }
+ 
+ 
+ button {
+	 border: 1px solid #FAA02E;
+	 border-radius: 2.5px;
+	 cursor: pointer;
+	 
+	 color: black;
+	 text-shadow: 1px 1px 3px rgba(0,0,0,1);
+	 font-weight: bold;
+	 font-family: sans-serif;
+	 
+	 opacity: .5;
+	 transition: 0.3s;
+ }
+ 
+ button:hover, button.active {
+	 opacity: 1;
+ }
+ 
+ div.tabs {
+	 
+	 background-color: orange;
+	 border: 1px solid whitesmoke;
+	 border-radius: 2.5px;
+ }
+ 
+ div.tabs button {
+	 color: whitesmoke;
+	 background-color: inherit;
+	 border: none;
+	 border-radius: 0px;
+	 padding: 15px 15px 15px 15px;
+	 text-shadow: none;
+	 cursor: pointer;
+	 transition: 0.3s;
+ }
+ 
+ div.tabs button:hover, div.tabs button.active {
+	 color: rgb(47, 37, 38);
+	 background-color: whitesmoke;
+ }
+ 
+ 
+ button.viz {
+	 width: 200px;
+	 height: 200px;
+	 margin: 10px 10px 10px 10px;
+
+	 font-size: 24px;
+ }
+ 
+ button#Aggregate {
+	 background-image: url("Thumbnails/aggregateThumb.png");
+ }
+ button#Aggregate:hover, button#Aggregate.active {
+	 background-image: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/aggregateThumb.png");
+ }
+ 
+ button#Point {
+	 background-image: url("Thumbnails/aggregateThumb.png");
+ }
+ button#Point:hover, button#Point.active {
+	 background-image: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/aggregateThumb.png");
+ }
+ 
+ button#Heat {
+	background-image: url("Thumbnails/aggregateThumb.png");
+ }
+ button#Heat:hover, button#Heat.active {
+	 background: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/aggregateThumb.png");
+ }
+ 
+ button.viz:hover, button.viz.active, .mapButton:hover, .mapButton.active {
+	 opacity: 1;
+	 color: #FAA02E;
+ }
+ 
+ 
+ button.specification {
+	 margin: 5px 5px 5px 5px;
+	 padding: 5px 5px 5px 5px;
+	
+	 font-size: 20px;
+	 
+	 color: rgba(47, 37, 38, 1);
+	 border-color: rgba(47, 37, 38, 1);
+	 border: 2px solid;
+	 text-shadow: 1px 1px 8px rgba(0,0,0,.2);
+	 opacity: .7;
+	 transition: .1s;
+ }
+ 
+ button#Attack {
+	 color: red;
+	 border-color: red;
+ }
+ 
+ button#Defense {
+	 color: blue;
+	 border-color: blue;
+ }
+ 
+ button.specification:hover, button.specification.active  {
+	 opacity: 1;
+	 font-size: 24px;
+	 text-shadow: 1px 1px 8px rgba(0,0,0,.5);
+ }
+ 
+
+ .mapButton {
+	 margin: 5px 5px 5px 5px;
+	 border-color: lightgray;
+	 width: 150px;
+	 height: 100px;
+	 font-size: 24px;
+ }
+
+ #Hanamura.mapButton {
+	 background-image:  url("Thumbnails/HanamuraThumb.png");
+ }
+ 
+  #Hanamura.mapButton:hover {
+	 background-image:  linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/HanamuraThumb.png");
+ }
+ 
+ .heroButton {
+	 margin: 5px 5px 5px 5px;
+	 width: 75px;
+	 height: 75px;
+	 border: none;
+ }
+ 
+ #Genji.heroButton {
+	 background-image: url("Thumbnails/genji.png");
+ }
+ 
+ 
+ circle {
+	 stroke-width: 2px;
+	 opacity: .8;
+ }
+ 
+ circle.node {
+	 opacity: 1;
+	 -webkit-filter: drop-shadow( 0px 0px 10px rgba(0,0,0,.3) );
+	 transition: 0.2s;
+ }
+ 
+ circle.hoverNode {
+	 stroke-width: 6px;
+ }
+ 
+ circle.selectedNode {
+	 stroke-width: 7px;
+	 -webkit-filter: drop-shadow( 0px 0px 5px rgba(0,255,255, 1) );
+ }
+ 
+ 
+ 
+ path {
+	 stroke-width: 2px;
+ }
+ 

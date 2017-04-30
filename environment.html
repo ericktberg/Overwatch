@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="pointMap.js"></script>
+		<script src="heatMap.js"></script>
+		<script src="aggregate.js"></script>
+		<script src="Characters.js"></script>
+		<script src="callbacks.js"></script>
+		<link rel="stylesheet" href="heroes.css">
+		<link rel="stylesheet" href="environment.css">
+		
+	</head>
+	<body>
+	<div id="content">
+		
+		<div id="TabbedInfo" class="window">
+			<div class="tabs" class="tabs">
+				<button class="active" 
+						id="visualisationsButton"
+						onClick="switchTabs(event, 'visualisations')">Visualisations</button>
+				<button class=""
+						id="selectedButton"
+						onClick="switchTabs(event, 'selected')">Selected Data</button>
+				<button class=""
+						id="inputButton"
+						onClick="switchTabs(event, 'input'); setStyle('input')">Input Data</button>
+			</div>
+			
+			<div id="visualisations" class="tabContent active">
+				<button class="viz active" id="Aggregate"
+						onClick="setStyle('Aggregate')">Aggregate Data</button></br>
+				<button class="viz" id="Point"
+						onClick="setStyle('Point')">Point Map</button></br>
+				<button class="viz" id="Heat"
+						onClick="setStyle('Heat')">Heat Map</button></br>
+				
+				<button id="Attack" 
+						class="specification"
+						onClick="toggleAttack()">Attack</button>
+				<button id="Defense" 
+						class="specification active" 
+						onClick="toggleDefense()">Defense</button>
+				<button id="Eliminations" 
+						class="specification active"
+						onClick="setMode('Eliminations')">Eliminations</button>
+				<button id="Deaths" 
+						class="specification"
+						onClick="setMode('Deaths')">Deaths</button>
+				
+			</div>
+			<div id="selected" class="tabContent">
+				<div id="selectedInfo"> 
+				</div>
+				<div id="selectedGraph">
+				</div>
+			</div>
+			<div id="inputinput" class="tabContent">
+				<form>
+					User: <input type="text" name="username"/><br>
+					Player Character: 
+					<select id="avatarSelect">
+						<option value="Genji">Genji</option>
+					</select><br>
+					Opposing Character: 
+					<select id="opposingSelect">
+						<option value="Genji">Genji</option>
+					</select><br>
+					Assisting Character: 
+					<select id="assistSelect">
+						<option value="Solo">Solo</option>
+						<option value="Genji">Genji</option>
+					</select><br>
+					Side: <br>
+					<input type="radio" name="side" value="Attack"/>Attack<br>
+					<input type="radio" name="side" value="Defense"/>Defense<br>
+					Mode: <br>
+					<input type="radio" name="mode" value="Eliminations"/>Elimination<br>
+					<input type="radio" name="mode" value="Deaths"/>Death<br>
+					Player Location <br>x: <input type="text" name="playerX"/> y: <input type="text" name="playerY"/><br>
+					Enemy Location <br>x: <input type="text" name="enemyX"/> y: <input type="text" name="enemyY"/><br>
+					Game tag: <input type="text" name="game"/><button id="generateNumber">Generate</button><br>
+					<input type="submit" value="Submit"/>
+					
+				</form>
+			</div>
+		</div>
+		
+		<div id="graph">
+		</div>
+
+
+		<div class="window graphInfo">
+		<h1 id="title">This is Title</h1>
+		</div>
+		<div id="heroes" class="window graphInfo">
+			<button id="Genji" class="heroButton active"></button>
+		</div>
+		<div id="maps" class="window graphInfo">
+			<button id="Hanamura" class="mapButton active">Hanamura</button>
+		</div>
+		<div id="legend" class="window graphInfo">
+		</div>
+
+	</div>
+		<script type="text/javascript" src="environment.js"></script>
+
+	</body>
+
+</html>

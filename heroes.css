@@ -1,0 +1,93 @@
+ .D\.va {
+	 fill: purple;
+	 stroke: lavendar;
+ }
+ 
+ .Genji {
+	 fill: #B6EF13;
+	 stroke: black;
+ }
+ 
+ .Soldier {
+	 fill: #525d9b;
+	 stroke: #d53231;
+ }
+ 
+ .Lucio {
+	 fill: #24c158;
+ }
+ 
+ .Ana {
+	 fill: #6591ee;
+	 stroke: #d3d7e7;
+ }
+ 
+ .Zarya {
+	 fill: #ff73c1;
+	 stroke: #eff0f0;
+ }
+ 
+ .Tracer {
+	 fill: #ce532a;
+	 stroke: #fccf35;
+ }
+ 
+ .Mercy {
+	 fill: #fffdf5;
+	 stroke: #ffaf01;
+ }
+ 
+ .Bastion {
+	 fill: #e1d5a2;
+	 stroke: #63824d;
+ }
+ 
+ .Reinhardt {
+	 fill: #b9b5ad;
+	 stroke: #5d5956;
+ }
+ 
+ .McCree {
+	 fill: #795c42;
+	 stroke: #c23f46;
+ }
+ 
+ .Symmetra {
+	 fill: #3cffff;
+	 stroke: #3e90b5;
+ }
+ 
+ .Widowmaker {
+	 fill: #bc47bc;
+	 stroke: #515489;
+ }
+ 
+ .Hanzo {
+	 fill: #837c46;
+	 stroke: #343128;
+ }
+ 
+ .Roadhog {
+	 fill: #5f5c59;
+	 stroke: #dac39f;
+ }
+ 
+ .Zenyatta {
+	 fill: #eed81e;
+	 stroke: #e2e2dc;
+ }
+ 
+ .Sombra {
+	 fill: #b2855e;
+	 stroke: #a350f9;
+ }
+ 
+ .Winston {
+	 fill: #e1dfd8;
+	 stroke: #464540;
+ }
+ 
+ .Solo {
+	 fill: lightblue;
+	 stroke: blue;
+ }
