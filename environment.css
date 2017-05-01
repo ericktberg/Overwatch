@@ -12,6 +12,10 @@
 	 font-family: sans-serif;
  }
  
+ input[type="text"] {
+	 width: 75px;
+ }
+ 
  div { 
 	position: relative;
  }
@@ -20,7 +24,15 @@
 	 position:relative;
 	 float: left;
 	 width: 370px;
-	 height: 100%;
+	 height: 750px;
+ }
+ 
+ div#options {
+	 position: absolute;
+	 left: 0px;
+	 height: 100px;
+	 width: 370px;
+	 bottom: 0px;
  }
  
  div#selected {
@@ -188,7 +200,7 @@
 	 margin: 5px 5px 5px 5px;
 	 padding: 5px 5px 5px 5px;
 	
-	 font-size: 20px;
+	 font-size: 22px;
 	 
 	 color: rgba(47, 37, 38, 1);
 	 border-color: rgba(47, 37, 38, 1);
@@ -201,17 +213,42 @@
  button#Attack {
 	 color: red;
 	 border-color: red;
+	 
+	 transition: .2s;
+ }
+ 
+  button#Attack.active {
+	  color: white;
+	 background-color: red;
+
  }
  
  button#Defense {
 	 color: blue;
 	 border-color: blue;
+	 
+	 transition: .2s;
+	 
  }
  
- button.specification:hover, button.specification.active  {
+ button#Defense.active {
+	 color: white;
+	 background-color: blue; 
+
+ }
+ 
+ button.specification:hover {
+	  opacity: 1;
+	  text-shadow: 1px 1px 8px rgba(0,0,0,.5);
+ }
+ 
+ button.specification.active  {
+	 color: white;
 	 opacity: 1;
-	 font-size: 24px;
-	 text-shadow: 1px 1px 8px rgba(0,0,0,.5);
+	 background-color: rgba(47, 37, 38, 1);
+	 border: none;
+	 text-shadow: 0px 0px 10px black;
+	 box-shadow: inset 0px 0px 10px black;
  }
  
 

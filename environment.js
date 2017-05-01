@@ -1,35 +1,36 @@
 var defense = true;
 var attack = false;
-var user = "darn42";
-var map = [{name: "Hanamura", active: true}];
+var user = "ShadowBurn";
+var map = "Hanamura";
+var maps = {"Hanamura": {url: "maps/Hanamura.jpg", width: 1916, height: 938}};
 var hero = {Genji: true};
-var mode = "Eliminations";
-var style = "Aggregate"
+var mode = "Elimination";
+var style = "Aggregate";
 var tab = "visualisations";
 
-var styles = [
-		{name: "Aggregate", modes: true},
-		{name: "Heat", modes: true},
-		{name: "Point", modes: true},
-		{name: "Input", modes: false},
-		{name: "Hotspot", modes: true},
-		{name: "ProCompare", modes: true}]
+var styles = 
+		{"Aggregate": {modes: true, contextual: true, selectable: true},
+		 "Heat": {modes: true, contextual: true, selectable: true},
+		 "Point": {modes: true, selectable: true},
+		 "Input": {},
+		 "Hotspots": {},
+		 "ProCompare": {modes: true}};
+
 
 draw();
 
 function setTitle() {
-	document.getElementById("title").innerHTML =  map.reduce(function(acc, d) { return acc + d.active ? d.name + " " : "" }, "") + (!attack || !defense ? (attack ? "Attack" : "Defense") : "") + " " + mode;
+	document.getElementById("title").innerHTML =  map + " " + mode;
 }
 
-function switchTabs(event, newTab) {
-	
+function switchTabs(newTab) {
 		document.getElementById(tab+"Button").classList.remove("active")
 		document.getElementById(newTab+"Button").classList.add("active")
-		document.getElementById(tab).classList.remove("active");
-		document.getElementById(newTab).classList.add("active");
 		
-		if(event)
-			event.currentTarget.classList.add("active");
+		document.getElementById(tab == "selected" ? style+"Selected" : tab).classList.remove("active");
+		document.getElementById(newTab == "selected" ? style+"Selected" : newTab).classList.add("active");
+		
+
 		tab = newTab;
 }
 
@@ -99,11 +100,19 @@ function setMode(newMode) {
 }
 
 function setStyle(newStyle) {
-	document.getElementById(style).classList.remove("active");
-	document.getElementById(newStyle).classList.add("active");
+	if (style && styles[style].selectable)
+		document.getElementById(style).classList.remove("active");
+	if (styles[newStyle].selectable)
+		document.getElementById(newStyle).classList.add("active");
+	
+	
 	style = newStyle;
+	if (styles[style].contextual)
+		switchTabs('selected');
 	erase();
 	draw();
+	
+	
 }
 
 
@@ -113,16 +122,19 @@ function erase() {
 
 function draw() {
 	if (style == "Point") {
-		drawPoints(attack, defense, map, mode);  // pointMap.js
+		drawPoints(user, attack, defense, map, mode);  // pointMap.js
 	}
 	else if (style == "Heat") {
-		drawHeat(attack, defense, map, mode);  // heatMap.js
+		drawHeat(user, attack, defense, map, mode);  // heatMap.js
 	}
 	else if (style == "Aggregate") {
-		drawAggregate(attack, defense, map, mode);  // aggregate.js	
+		drawAggregate(user, attack, defense, map, mode);  // aggregate.js	
 	}
 	else if (style == "Input") {
-		drawInput(user, map);
+		drawInput(user, map);  // input.js
+	} 
+	else if (style == "Hotspots") {
+		drawHotspots(user, attack, defense, map);  //heatHotspots.js
 	}
 
 	setTitle()

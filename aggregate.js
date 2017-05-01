@@ -1,4 +1,4 @@
-function drawAggregate(attack, defense,map,mode) {
+function drawAggregate(user, attack, defense,map,mode) {
 			
 	var dataMin = Infinity,
 		dataMax = 0;
@@ -43,7 +43,7 @@ function drawAggregate(attack, defense,map,mode) {
 			.attr("class", function(d) { return d.data.name; });
 			
 		arc.append("title")
-			.text(function(d) { console.log(d); return d.data.name; });
+			.text(function(d) { return d.data.name; });
 	}
 	
 	/* 	on click there is a new selected element.
@@ -57,7 +57,7 @@ function drawAggregate(attack, defense,map,mode) {
 		selectedNode = d3.select(d.node).select("circle");
 		selectedNode.classed("selectedNode", true);
 		
-		switchTabs(undefined, "selected");
+		switchTabs("selected");
 		
 		d3.select("#selectedGraph").select("svg").remove();
 		
@@ -74,7 +74,7 @@ function drawAggregate(attack, defense,map,mode) {
 		else {
 			var percent = Math.round(d.data.value / d.parent.data.children.reduce(function(acc, d) { return d.value + acc; }, 0) * 1000, 1) / 10
 
-			if (mode == "Eliminations") {
+			if (mode == "Elimination") {
 				if(d.depth == 1) {
 					info.append("text").attr("class", "info")
 						.text("You used " + d.data.name + " " + percent + "% of the time.");
@@ -93,7 +93,7 @@ function drawAggregate(attack, defense,map,mode) {
 						.text(d.data.name + " helps " + d.parent.parent.data.name + " Eliminate " + d.parent.data.name + " " + percent + "% of the time.");
 				}
 			} 
-			else {
+			else if (mode == "Death") {
 				if(d.depth == 1) {
 					info.append("text").attr("class", "info")
 						.text("You used " + d.data.name + " " + percent + "% of the time.");
@@ -132,12 +132,11 @@ function drawAggregate(attack, defense,map,mode) {
 		.size([600, 600])
 		.padding(10);
 		
-	d3.csv("data/"+mode+".csv", function(data) {
+	d3.csv("data/"+user+"/data.csv", function(data) {
 		if(!attack || !defense) {
-			console.log("here");
-			data = data.filter(function (d) { return d["Type"] == (attack ? "Attack" : "Defense"); });
-			console.log(data);
+			data = data.filter(function (d) { return (d["side"] == (attack ? "Attack" : "Defense"))});
 		}
+		data = data.filter(function (d) { return  d["mode"] == mode; });
 		
 		var nodes = {name: mode, children: []};
 		
@@ -147,18 +146,18 @@ function drawAggregate(attack, defense,map,mode) {
 			var array = nodes.children;
 			var idx;
 			
-			idx = f(d.Character, array, 2);
+			idx = f(d.playerCharacter, array, 2);
 			node = node.children[idx];
 			array = node.children;
 			node.value += 1;
 			
-			idx = f(d.Opposing, array, 1);
+			idx = f(d.opposingCharacter, array, 1);
 			node = node.children[idx];
 			array = node.children;
 			node.value += 1;
 			
-			d.Assist = d.Assist == "" ? "Solo" : d.Assist;
-			idx = f(d.Assist, array, 0);
+			d.assistCharacter = d.assistCharacter == "" ? "Solo" : d.assistCharacter;
+			idx = f(d.assistCharacter, array, 0);
 			node = node.children[idx];
 			array = node.children;
 			node.value += 1;

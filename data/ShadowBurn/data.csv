@@ -1,0 +1,77 @@
+map,side,mode,playerCharacter,opposingCharacter,assistCharacter,playerLocation,enemyLocation,method,game
+Hanamura,Defense,Elimination,Genji,Reinhardt,Roadhog,948x333,898x311,Shurikens,1
+Hanamura,Defense,Elimination,Genji,Genji,Ana,907x243,888x267,Shuriken Fan,1
+Hanamura,Defense,Elimination,Genji,Lucio,Solo,1053x272,1067x283,Shuriken Fan,1
+Hanamura,Defense,Elimination,Genji,McCree,Solo,872x298,862x307,Dragonblade,1
+Hanamura,Defense,Elimination,Genji,Ana,Solo,863x308,852x316,Dragonblade,1
+Hanamura,Defense,Elimination,Genji,Reinhardt,Roadhog,911x243,921x247,Dash,1
+Hanamura,Defense,Assist,Genji,McCree,Tracer,888x293,858x322,Shurikens,1
+Hanamura,Defense,Elimination,Genji,Ana,Symmetra,969x432,955x437,Shuriken Fan,1
+Hanamura,Defense,Assist,Genji,Zarya,Reinhardt,947x232,914x267,Shurikens,1
+Hanamura,Defense,Assist,Genji,Roadhog,Symmetra,918x293,918x346,Shurikens,1
+Hanamura,Defense,Elimination,Genji,Ana,Roadhog,913x351,915x384,Dragonblade,1
+Hanamura,Defense,Assist,Genji,Lucio,Symmetra,965x262,936x242,Shurikens,1
+Hanamura,Defense,Assist,Genji,Roadhog,Roadhog,895x307,862x304,Shurikens,1
+Hanamura,Defense,Assist,Genji,McCree,Reinhardt,891x299,855x305,Dash,1
+Hanamura,Attack,Elimination,Pharah,Torbjorn,Mercy,1114x124,1134x107,Rocket,1
+Hanamura,Attack,Assist,Pharah,Reinhardt,Reinhardt,1015x245,944x324,Rocket,1
+Hanamura,Attack,Elimination,Pharah,Symmetra,Solo,935x459,915x443,Rocket,1
+Hanamura,Attack,Death,Pharah,Torbjorn,Solo,963x425,962x444,Rivet Gun,1
+Hanamura,Attack,Assist,Pharah,Torbjorn,Zarya,895x227,1053x269,Rocket,1
+Hanamura,Attack,Elimination,Pharah,Symmetra,Solo,1054x265,1046x299,Rocket Barrage,1
+Hanamura,Attack,Death,Pharah,Zarya,Solo,1122x260,1098x249,Particle Cannon,1
+Hanamura,Attack,Assist,Pharah,Symmetra,Reinhardt,1075x220,1097x258,Photon Beam,1
+Hanamura,Attack,Assist,Pharah,Torbjorn,Reinhardt,1082x218,1110x260,Rocket,1
+Hanamura,Attack,Elimination,Pharah,Ana,Solo,1078x245,1122x271,Concussion Blast,1
+Hanamura,Attack,Elimination,Pharah,Soldier,Mercy,1091x267,1106x294,Rocket,1
+Hanamura,Attack,Assist,Pharah,Tracer,Tracer,1077x221,1069x196,Rocket,1
+Hanamura,Defense,Elimination,Genji,Reinhardt,Roadhog,891x263,901x272,Shurikens,2
+Hanamura,Defense,Elimination,Genji,Ana,Roadhog,908x283,886x311,Shurikens,2
+Hanamura,Defense,Elimination,Genji,Zarya,Mei,834x354,815x358,Shuriken Fan,2
+Hanamura,Defense,Assist,Genji,Mei,Mei,865x298,874x310,Shuriken Fan,2
+Hanamura,Defense,Elimination,Genji,McCree,Solo,829x302,830x311,Dragonblade,2
+Hanamura,Defense,Elimination,Genji,Ana,Solo,833x341,819x344,Shurikens,2
+Hanamura,Defense,Death,Genji,Reinhardt,Zarya,829x337,822x343,Hammer,2
+Hanamura,Defense,Death,Genji,McCree,Zenyatta,1097x338,976x409,Peacekeeper,2
+Hanamura,Defense,Assist,Genji,McCree,Zarya,1041x662,989x655,Shurikens,2
+Hanamura,Defense,Assist,Genji,Ana,Zarya,998x648,985x658,Shuriken Fan,2
+Hanamura,Defense,Elimination,Genji,Zenyatta,Zarya,993x656,978x661,Shuriken Fan,2
+Hanamura,Defense,Elimination,Genji,Reinhardt,Tracer,915x692,927x691,Shuriken Fan,2
+Hanamura,Defense,Assist,Genji,Zarya,McCree,922x677,929x684,Shurikens,2
+Hanamura,Defense,Elimination,Genji,McCree,Solo,1024x652,1000x636,Dash,2
+Hanamura,Defense,Elimination,Genji,Zenyatta,Solo,1007x627,999x621,Dragonblade,2
+Hanamura,Defense,Elimination,Genji,Tracer,Solo,995x627,989x619,Dragonblade,2
+Hanamura,Defense,Elimination,Genji,Zenyatta,Solo,1011x722,1015x710,"Shuriken Fan",2
+Hanamura,Defense,Death,Genji,McCree,Tracer,1084x717,1046x659,Peacekeeper,2
+Hanamura,Defense,Assist,Genji,Reinhardt,Zarya,1073x716,1071x726,"Shuriken Fan",2
+Hanamura,Defense,Assist,Genji,McCree,Zarya,1063x708,1058x694,Dash,2
+Hanamura,Defense,Elimination,Genji,Zarya,Solo,1045x688,1050x677,Shurikens,2
+Hanamura,Defense,Elimination,Genji,Ana,Solo,1006x684,1013x691,Dragonblade,2
+Hanamura,Defense,Elimination,Genji,Lucio,McCree,1002x629,1001x617,"Shuriken Fan",2
+Hanamura,Defense,Elimination,Genji,McCree,McCree,992x737,965x719,Shurikens,2
+Hanamura,Defense,Elimination,Genji,Ana,Zarya,1001x595,992x574,"Shuriken Fan",2
+Hanamura,Defense,Elimination,Genji,Mei,Mei,964x546,975x545,Shurikens,2
+Hanamura,Defense,Elimination,Genji,Lucio,McCree,1025x676,1029x681,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,Reinhardt,McCree,1041x266,1032x271,"Shuriken Fan",2
+Hanamura,Attack,Elimination,Genji,Lucio,McCree,1107x254,1109x233,Shurikens,2
+Hanamura,Attack,Assist,Genji,Reinhardt,Zarya,1055x288,1066x303,Shurikens,2
+Hanamura,Attack,Elimination,Genji,Ana,Solo,1036x751,1039x755,Shurikens,2
+Hanamura,Attack,Death,Genji,McCree,Solo,1093x650,1113x632,Peacekeeper,2
+Hanamura,Attack,Elimination,Genji,Ana,Solo,1120x708,1116x701,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,Lucio,Solo,1044x648,1045x653,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,McCree,McCree,1020x626,1015x617,"Shuriken Fan",2
+Hanamura,Attack,Elimination,Genji,Mei,Reinhardt,997x696,987x692,Dash,2
+Hanamura,Attack,Death,Genji,Mei,Ana,1117x731,1113x700,Icicle,2
+Hanamura,Attack,Elimination,Genji,McCree,McCree,1086x609,1076x602,Shurikens,2
+Hanamura,Attack,Elimination,Genji,Ana,Solo,1064x770,1068x761,Dragonblade,2
+Hanamura,Attack,Death,Genji,Reinhardt,Ana,1071x768,1075x764,Hammer,2
+Hanamura,Attack,Elimination,Genji,Mei,Winston,1007x634,1001x630,Dash,2
+Hanamura,Attack,Elimination,Genji,McCree,Ana,1010x646,1009x654,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,Ana,Winston,1021x723,1022x735,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,Reinhardt,Winston,1026x739,1035x748,Dragonblade,2
+Hanamura,Attack,Death,Genji,Zarya,Solo,1011x678,1041x701,"Particle Cannon",2
+Hanamura,Attack,Elimination,Genji,Mei,Ana,1014x640,1011x631,Shurikens,2
+Hanamura,Attack,Elimination,Genji,Ana,Ana,1092x749,1090x759,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,McCree,Ana,1016x732,1026x734,Dragonblade,2
+Hanamura,Attack,Elimination,Genji,Zarya,Winston,1022x685,1029x679,Dash,2
+Hanamura,Attack,Elimination,Genji,Lucio,Winston,1091x718,1101x713,"Shuriken Fan",2
