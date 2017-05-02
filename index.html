@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+circle,
+.hexagon {
+  fill: none;
+  pointer-events: all;
+}
+
+.hexagon path {
+  -webkit-transition: fill 250ms linear;
+  transition: fill 250ms linear;
+}
+
+.hexagon :hover {
+  fill: pink;
+}
+
+circle .fill,
+.hexagon .fill {
+  fill: red;
+}
+
+.mesh {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .5;
+  pointer-events: none;
+}
+
+.border {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;]
+  opacity: 1;
+  stroke-opacity: .5;
+  pointer-events: none;
+}
+
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 960,
+    height = 500,
+    radius = 10;
+
+var topology = hexTopology(radius, width, height);
+
+var projection = hexProjection(radius);
+
+var path = d3.geoPath()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+  
+//SVG filter for the gooey effect
+//Code taken from http://tympanus.net/codrops/2015/03/10/creative-gooey-effects/
+var defs = svg.append('defs');
+var filter = defs.append('filter').attr('id','gooey');
+filter.append('feGaussianBlur')
+	.attr('in','SourceGraphic')
+	.attr('stdDeviation','10')
+	.attr('result','blur');
+filter.append('feColorMatrix')
+	.attr('in','blur')
+	.attr('mode','matrix')
+	.attr('values','1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7')
+	.attr('result','gooey');
+// filter.append("feBlend")
+// 	.attr("in","SourceGraphic")
+// 	.attr("in2","gooey");
+filter.append('feComposite')
+	.attr('in','SourceGraphic')
+	.attr('in2','gooey')
+	.attr('operator','atop');
+
+var hexes = svg.append("g")
+    .attr("class", "hexagon")
+		.style("filter", "url(#gooey)")
+  .selectAll("path")
+    .data(topology.objects.hexagons.geometries).enter();
+hexes.append("path")
+    .attr("d", function(d) { return path(topojson.feature(topology, d)); })
+    .attr("class", function(d) { return "i"+d.i+"j"+d.j; })
+		.classed("fill", function(d) { return d.fill; })
+    .on("mousedown", mousedown)
+    .on("mousemove", mousemove)
+    .on("mouseup", mouseup);
+
+/*
+var circles = svg.append("g")
+		.style("filter", "url(#gooey)")
+  .selectAll("circle")
+    .data(topology.objects.hexagons.geometries).enter();
+circles.append("circle")
+  .attr("class", function(d) { return "i"+d.i+"j"+d.j; })
+	.attr("cx", function(d) { return d.i * radius * 2 * Math.sin(Math.PI / 3) })
+	.attr("cy", function(d) { return d.j * radius * 1.5 })
+	.attr("r", radius * 0.6);
+*/
+  
+svg.append("path")
+    .datum(topojson.mesh(topology, topology.objects.hexagons))
+    .attr("class", "mesh")
+    .attr("d", path);
+
+var border = svg.append("path")
+    .attr("class", "border")
+    .call(redraw);
+
+// TODO NEXT: 
+// scale in each hex as it's selected.
+// may need to use geometry to position container elements
+// (as with circle test above)
+// and scale those, instead of drawing at absolute coords.
+svg.selectAll(".i5j4, .i5j3, .i6j4, .i5j5")
+	.classed("fill", true)
+	.attr("transform", "scale(0.5)")
+.transition()
+	.duration(1500)
+	.attr("transform", "scale(1)")
+
+  
+var mousing = 0;
+
+function mousedown(d) {
+  mousing = d.fill ? -1 : +1;
+  mousemove.apply(this, arguments);
+}
+
+function mousemove(d) {
+  if (mousing) {
+    d3.select(this).classed("fill", d.fill = mousing > 0);
+    border.call(redraw);
+  }
+}
+
+function mouseup() {
+  mousemove.apply(this, arguments);
+  mousing = 0;
+}
+
+function redraw(border) {
+  border.attr("d", path(topojson.mesh(topology, topology.objects.hexagons, function(a, b) { return a.fill ^ b.fill; })));
+}
+
+function hexTopology(radius, width, height) {
+  var dx = radius * 2 * Math.sin(Math.PI / 3),
+      dy = radius * 1.5,
+      m = Math.ceil((height + radius) / dy) + 1,
+      n = Math.ceil(width / dx) + 1,
+      geometries = [],
+      arcs = [];
+
+  for (var j = -1; j <= m; ++j) {
+    for (var i = -1; i <= n; ++i) {
+      var y = j * 2, x = (i + (j & 1) / 2) * 2;
+      arcs.push([[x, y - 1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1, y + 1], [-1, 1]]);
+    }
+  }
+
+  for (var j = 0, q = 3; j < m; ++j, q += 6) {
+    for (var i = 0; i < n; ++i, q += 3) {
+      geometries.push({
+        type: "Polygon",
+        arcs: [[q, q + 1, q + 2, ~(q + (n + 2 - (j & 1)) * 3), ~(q - 2), ~(q - (n + 2 + (j & 1)) * 3 + 2)]],
+        fill: false,//i > n / 2,
+        j: j,
+        i: i
+      });
+    }
+  }
+
+  return {
+    transform: {translate: [0, 0], scale: [1, 1]},
+    objects: {hexagons: {type: "GeometryCollection", geometries: geometries}},
+    arcs: arcs
+  };
+}
+
+function hexProjection(radius) {
+  var dx = radius * 2 * Math.sin(Math.PI / 3),
+      dy = radius * 1.5;
+  return {
+    stream: function(stream) {
+      return {
+        point: function(x, y) { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
+        lineStart: function() { stream.lineStart(); },
+        lineEnd: function() { stream.lineEnd(); },
+        polygonStart: function() { stream.polygonStart(); },
+        polygonEnd: function() { stream.polygonEnd(); }
+      };
+    }
+  };
+}
+
+</script>

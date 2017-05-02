@@ -3,12 +3,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
 		<script src="pointMap.js"></script>
 		<script src="heatMap.js"></script>
 		<script src="aggregate.js"></script>
 		<script src="Characters.js"></script>
 		<script src="input.js"></script>
-		<script src="callbacks.js"></script>
+		
 		<link rel="stylesheet" href="heroes.css">
 		<link rel="stylesheet" href="environment.css">
 		
@@ -47,13 +48,13 @@
 			
 			</div>
 			<div id="HeatSelected" class="tabContent">
-				<button id="Hotspots" 
+				<button id="Hotspot" 
 						class="specification" 
-						onClick="setStyle('Hotspots')">Hotspots</button><br>
+						onClick="setMode('Hotspot')">Hotspots</button><br>
 				Compare with 
-				<select id="userSelect">
+				<select id="compareUserSelect">
 				
-				</select><button>Compare</button>
+				</select><button id="Compare" class="specification" onClick="">Compare</button>
 			</div>
 			<div id="InputSelected" class="tabContent">
 			
@@ -112,7 +113,10 @@
 					onClick="toggleAttack()">Attack</button>
 			<button id="Defense" 
 					class="specification active" 
-					onClick="toggleDefense()">Defense</button><br>
+					onClick="toggleDefense()">Defense</button>
+					<select id="userSelect" onchange="setUser()">
+			
+			</select><br>
 			<button id="Elimination" 
 					class="specification active"
 					onClick="setMode('Elimination')">Eliminations</button>
@@ -122,17 +126,21 @@
 			<button id="Assist" 
 					class="specification"
 					onClick="setMode('Assist')">Assists</button>
+			
 		</div>
 		
 		<div id="graph">
 		</div>
 
 
-		<div class="window graphInfo">
+		<div id="titleWindow" class="window graphInfo">
 		<h1 id="title">This is Title</h1>
 		</div>
 		<div id="heroes" class="window graphInfo">
 			<button id="Genji" class="heroButton active"></button>
+			<button id="Pharah" class="heroButton active"></button>
+			<button id="McCree" class="heroButton"></button>
+			<button id="Zarya" class="heroButton"></button>
 		</div>
 		<div id="maps" class="window graphInfo">
 			<button id="Hanamura" class="mapButton active">Hanamura</button>

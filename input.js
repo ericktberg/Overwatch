@@ -74,30 +74,13 @@ function drawInput(user, map) {
 	state = {circle: false, rect: false};
 	lastCircle = null, lastRect = null;
 
-	d3.select("#avatarSelect").selectAll("option")
-		.data(characters.map(function(d) { return d.name; }))
-		.enter().append("option")
-		.attr("value",function(d) { return d; })
-		.text(function(d) { return d; });
-	d3.select("#opposingSelect").selectAll("option")
-		.data(characters.map(function(d) { return d.name; }))
-		.enter().append("option")
-		.attr("value",function(d) { return d; })
-		.text(function(d) { return d; });
+	fillSelect("#avatarSelect", characters.map(function(d) { return d.name; }));
+	fillSelect("#opposingSelect", characters.map(function(d) { return d.name; }));
 		
 	var c = characters.slice();
 	c.unshift({name: "Solo"});
-	d3.select("#assistSelect").selectAll("option")
-		.data(c.map(function(d) { return d.name; }))
-		.enter().append("option")
-		.attr("value",function(d) { return d; })
-		.text(function(d) { return d; });
-		
-	d3.select("#methodSelect").selectAll("option")
-		.data(methodArray(characters[0]))
-		.enter().append("option")
-		.attr("value",function(d) { return d; })
-		.text(function(d) { return d; });	
+	fillSelect("#assistSelect", c.map(function(d) { return d.name; }));
+	fillSelect("#methodSelect", methodArray(characters[0]));
 	
 	function zoomed() {
 		container.attr("transform", d3.event.transform);

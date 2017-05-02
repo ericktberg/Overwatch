@@ -1,27 +1,42 @@
 var defense = true;
 var attack = false;
-var user = "ShadowBurn";
+var user = "darn42";
 var map = "Hanamura";
 var maps = {"Hanamura": {url: "maps/Hanamura.jpg", width: 1916, height: 938}};
-var hero = {Genji: true};
+var hero = {Genji: true, Pharah: true};
 var mode = "Elimination";
 var style = "Aggregate";
 var tab = "visualisations";
 
 var styles = 
-		{"Aggregate": {modes: true, contextual: true, selectable: true},
-		 "Heat": {modes: true, contextual: true, selectable: true},
-		 "Point": {modes: true, selectable: true},
+		{"Aggregate": {modes: true, contextual: true, selectable: true, Elimination: true, Death: true},
+		 "Heat": {modes: true, contextual: true, selectable: true, Hotspot: true, Elimination: true, Death: true},
+		 "Point": {modes: true, selectable: true, Elimination: true, Death: true},
 		 "Input": {},
-		 "Hotspots": {},
 		 "ProCompare": {modes: true}};
 
 
+		 
+
+userList();		 
 draw();
+
+function setUser() {
+	user = document.getElementById("userSelect").value;
+	erase();
+	draw();
+}
 
 function setTitle() {
 	document.getElementById("title").innerHTML =  map + " " + mode;
 }
+
+function userList() {
+	d3.csv("data/users.csv", function(data) {
+		fillSelect("#userSelect", data.map(function(d) { return d.user; }));		
+	});
+}
+
 
 function switchTabs(newTab) {
 		document.getElementById(tab+"Button").classList.remove("active")
@@ -107,6 +122,9 @@ function setStyle(newStyle) {
 	
 	
 	style = newStyle;
+	if (!styles[style][mode]) {
+		setMode("Elimination");
+	}
 	if (styles[style].contextual)
 		switchTabs('selected');
 	erase();
@@ -125,6 +143,7 @@ function draw() {
 		drawPoints(user, attack, defense, map, mode);  // pointMap.js
 	}
 	else if (style == "Heat") {
+		contextHeat();
 		drawHeat(user, attack, defense, map, mode);  // heatMap.js
 	}
 	else if (style == "Aggregate") {
@@ -133,9 +152,14 @@ function draw() {
 	else if (style == "Input") {
 		drawInput(user, map);  // input.js
 	} 
-	else if (style == "Hotspots") {
-		drawHotspots(user, attack, defense, map);  //heatHotspots.js
-	}
 
 	setTitle()
+}
+
+function fillSelect(id, data) {
+	d3.select(id).selectAll("option")
+		.data(data)
+		.enter().append("option")
+		.attr("value",function(d) { return d; })
+		.text(function(d) { return d; });
 }

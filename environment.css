@@ -2,7 +2,6 @@
 	 overflow:hidden;
  }
  
- 
  body {
 	 overflow:hidden;
  }
@@ -48,12 +47,14 @@
  }
  
  div#heroes {
+	 display: block;
 	 position: absolute;
 	 bottom: 0px;
  }
  
  div#maps {
 	 position: absolute;
+	 width: 160px;
  }
  
  div#content {
@@ -69,6 +70,10 @@
 	 right: 0;
 	 top: 200px;
  }
+ 
+ div#titleWindow {
+ }
+
  
  div.tabContent {
 	 display: none;
@@ -99,14 +104,7 @@
  }
  
  
- h1 {
-	color: #060606;
- }
- 
- h1#title {
-	 position: relative;
- }
- 
+
  text.subtitle {
 	 display: block;
 	 position: relative;
@@ -177,17 +175,17 @@
  }
  
  button#Point {
-	 background-image: url("Thumbnails/aggregateThumb.png");
+	 background-image: url("Thumbnails/pointThumb.png");
  }
  button#Point:hover, button#Point.active {
-	 background-image: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/aggregateThumb.png");
+	 background-image: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/pointThumb.png");
  }
  
  button#Heat {
-	background-image: url("Thumbnails/aggregateThumb.png");
+	background-image: url("Thumbnails/heatThumb.png");
  }
  button#Heat:hover, button#Heat.active {
-	 background: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/aggregateThumb.png");
+	 background: linear-gradient( rgba(47, 37, 38, 0.2), rgba(47, 37, 38, .5) ), url("Thumbnails/heatThumb.png");
  }
  
  button.viz:hover, button.viz.active, .mapButton:hover, .mapButton.active {
@@ -276,7 +274,16 @@
  }
  
  #Genji.heroButton {
-	 background-image: url("Thumbnails/genji.png");
+	 background-image: url("Thumbnails/genjiThumb.png");
+ } 
+ #Zarya.heroButton {
+	 background-image: url("Thumbnails/zaryaThumb.png");
+ } 
+ #Pharah.heroButton {
+	 background-image: url("Thumbnails/pharahThumb.png");
+ } 
+ #McCree.heroButton {
+	 background-image: url("Thumbnails/McCree.png");
  }
  
  
@@ -306,3 +313,21 @@
 	 stroke-width: 2px;
  }
  
+ .hexagon {
+	 fill: none;
+	 pointer-events: all;
+}
+
+.hexagon path {
+}
+
+.hexagon :hover {
+}
+
+.mesh {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1px;
+  stroke-opacity: .5;
+  pointer-events: none;
+}

@@ -117,3 +117,46 @@ Hanamura,Defense,Death,Genji,Roadhog,Solo,1072x432x1,1058x486x1,Hook,8
 Hanamura,Defense,Death,Genji,Sombra,Hanzo,914x604x0,890x594x0,Dash,8
 Hanamura,Defense,Death,Genji,Roadhog,Solo,926x592x1,910x608x1,Hook,8
 Hanamura,Defense,Death,Genji,Genji,Ana,1035x610x-1,1010x634x-1,Dash,8
+Hanamura,Attack,Death,Genji,Roadhog,Solo,1000x662x0,1042x698x0,Hook,9
+Hanamura,Attack,Death,Genji,Soldier,Mercy,1056x596x0,1024x616x0,Tactical Visor,9
+Hanamura,Attack,Elimination,Genji,Roadhog,Zenyatta,989x650x0,1029x616x0,Shurikens,9
+Hanamura,Attack,Elimination,Genji,Soldier,Solo,1100x684x0,1086x671x0,Shuriken Fan,9
+Hanamura,Attack,Elimination,Genji,Mercy,Solo,1131x699x0,1124x701x0,Dragonblade,9
+Hanamura,Attack,Death,Genji,Roadhog,Solo,1134x700x0,1158x685x0,Hook,9
+Hanamura,Attack,Elimination,Genji,McCree,D.va,1062x741x0,1070x749x0,Shuriken Fan,9
+Hanamura,Attack,Assist,Genji,Soldier,Reinhardt,1059x731x0,1071x729x0,Shuriken Fan,9
+Hanamura,Attack,Elimination,Genji,Roadhog,Soldier,1101x666x0,1081x694x0,Shurikens,9
+Hanamura,Attack,Elimination,Genji,Lucio,Soldier,1090x693x0,1080x703x0,Dash,9
+Hanamura,Attack,Elimination,Genji,Soldier,Solo,1005x672x0,1015x667x0,Shuriken Fan,9
+Hanamura,Attack,Death,Genji,Soldier,Solo,1005x672x0,1015x667x0,Tactical Visor,9
+Hanamura,Attack,Elimination,Genji,McCree,Solo,1094x646x0,1115x635x0,Deflect,9
+Hanamura,Attack,Death,Genji,Mei,Reinhardt,1062x679x0,1136x693x0,Icicle,9
+Hanamura,Defense,Elimination,Genji,Ana,Soldier,1091x273x0,1084x259x0,Shuriken Fan,9
+Hanamura,Defense,Death,Genji,Reinhardt,Zenyatta,1129x275x0,1108x265x0,Hammer,9
+Hanamura,Defense,Elimination,Genji,Genji,Soldier,1088x263x0,1079x240x0,Dash,9
+Hanamura,Defense,Elimination,Genji,Zenyatta,Solo,857x308x0,851x317x0,Dash,9
+Hanamura,Defense,Death,Genji,Reinhardt,Genji,1071x189x0,1070x170x0,Firestrike,9
+Hanamura,Defense,Elimination,Genji,Junkrat,Solo,1058x626x0,1079x630x0,Shuriken Fan,9
+Hanamura,Defense,Death,Genji,Zenyatta,Solo,1076x666x0,1034x700x0,Orb of Destruction,9
+Hanamura,Defense,Death,Genji,Reinhardt,Zenyatta,1041x692x0,1055x692x0,Hammer,9
+Hanamura,Attack,Elimination,Pharah,Zarya,Lucio,1063x109x1,1112x127x0,Rocket,10
+Hanamura,Attack,Elimination,Pharah,Hanzo,Lucio,1094x251x1,1128x277x0,Concussion Blast,10
+Hanamura,Attack,Elimination,Pharah,Hanzo,Reinhardt,1077x253x1,1098x302x0,Rocket,10
+Hanamura,Attack,Elimination,Pharah,Orisa,Reinhardt,1067x296x1,1091x323x0,Rocket,10
+Hanamura,Attack,Elimination,Pharah,Orisa,Reinhardt,1083x245x1,1088x295x0,Rocket,10
+Hanamura,Attack,Elimination,Pharah,Torbjorn,Reinhardt,993x388x1,963x414x0,Rocket,10
+Hanamura,Attack,Elimination,Pharah,Hanzo,Solo,1002x677x1,1025x687x0,Rocket Barrage,10
+Hanamura,Attack,Elimination,Pharah,Orisa,Solo,1003x675x1,1012x691x0,Rocket,10
+Hanamura,Attack,Death,Pharah,Hanzo,Solo,974x587x0,979x655x1,Scatter Arrow,10
+Hanamura,Attack,Elimination,Pharah,Mercy,Solo,1042x749x0,1055x765x0,Rocket,10
+Hanamura,Attack,Death,McCree,Hanzo,Solo,924x652x0,982x651x0,Tree trunks,10
+Hanamura,Defense,Death,Zarya,Zarya,Reinhardt,1072x245x0,1014x262x0,Particle Cannon,10
+Hanamura,Defense,Elimination,McCree,Hanzo,Pharah,1000x705x2,1026x607x1,Peacekeeper,10
+Hanamura,Defense,Elimination,McCree,Ana,Solo,1009x711x2,1021x653x0,Peacekeeper,10
+Hanamura,Defense,Death,McCree,Hanzo,Mercy,1022x733x2,993x703x2,Scatter Arrow,10
+Hanamura,Defense,Elimination,McCree,Hanzo,Solo,1025x732x2,1020x715x2,Flashbang,10
+Hanamura,Defense,Elimination,McCree,Zarya,Roadhog,995x696x2,1081x660x0,Deadeye,10
+Hanamura,Defense,Elimination,McCree,Mercy,Pharah,1019x722x0,1070x739x0,Peacekeeper,10
+Hanamura,Defense,Death,McCree,Soldier,Solo,1040x694x0,1113x640x0,COD Gun,10
+Hanamura,Defense,Elimination,McCree,Ana,Solo,1103x725x0,1004x702x2,Peacekeeper,10
+Hanamura,Defense,Death,McCree,Zarya,Hanzo,1093x733x0,1053x676x0,Graviton Surge,10

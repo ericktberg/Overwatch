@@ -1,69 +1,54 @@
-function gridData() {
-	var data = new Array()
-	var xpos = 1, ypos = 1;
-	var width = 10, height = 10;
-	
-	for (var row = 0; row < 93; row++) {
-		data.push(new Array());
-		
-		for (var column = 0; column < 191; column++) {
-			data[row].push({
-				x: xpos,
-				y: ypos,
-				width: width,
-				height: height,
-				fill: "none",
-				i: [],
-				count: []
-			})
-			
-			xpos += width;
-		}			
-		
-		xpos = 1;
-		ypos += height;
+
+var playerInterp = d3.interpolateLab("#77070c",  "#002b82")
+var enemyInterp = d3.interpolateLab("#f91199", "#00b6ff");
+
+function color(mode, player, value) {
+	switch(player+mode) {
+		case "playerElimination": 
+			return playerInterp(1);
+			break;
+		case "enemyElimination": 
+			return enemyInterp(1);
+			break;
+		case "playerDeath":
+			return playerInterp(0);
+			break;
+		case "enemyDeath":
+			return enemyInterp(0);
+			break;		
+		case "playerHotspot":
+			return value < 0 ? playerInterp(0) : playerInterp(1);
+			break;
+		case "enemyHotspot":
+			return enemyInterp(value);
+			break;
 	}
 	
-	return data;
+
 }
 
-function fade(d,i,color,base,x,y, gridData, name) {
-	/*  The center of a position (x,y) gets full value of base 
-		Reference the index sent here. */
-	if(x && y) {
-		var el = gridData[y][x];
-		el.fill = color;
-		el.i.push(i);
-		el.count.push(base);
-	}
+function contextHeat() {
+	d3.csv("data/users.csv", function(data) {
+		fillSelect("#compareUserSelect", 
+			data.filter(function(d) { return d.user != user })
+				.map(function(d) { return d.user; })
+		);
+		
+	});
 	
-	
-	for (xpos = -1; xpos <= 1; xpos++) {
-		for(ypos = -1; ypos <=1; ypos++) {
-			if ((ypos != 0 || xpos != 0)
-			&& (y + ypos) in gridData
-			&& (x + xpos) in gridData[y + ypos]) 
-			{
-				var count = 0;
-				el = gridData[y + ypos][x + xpos];
-				el.fill = color;
-				if (xpos && ypos) {
-					count += .25 * base;
-				}
-				if ((!xpos || !ypos) && xpos != ypos) {
-					count += .5 * base;
-				}
-				
-				el.i.push(i);
-				el.count.push(count);
-				el.class = name;
-
-			}
-		}
-	}
 }
 
 function drawHeat(user, attack, defense, map, mode) {
+	var width = 835,
+		height = 817,
+		ul_x = 460, ul_y = 61,
+		radius = 7,
+		centerVal = .3, edgeVal = .6;
+	var dx = radius * 2 * Math.sin(Math.PI / 3),
+		dy = radius * 1.5;
+	
+	var hexData = {Elimination: {}, Death: {}, Assist: {}, enemyElimination: {}, enemyDeath: {}, enemyAssist: {}};
+	
 	function zoomed() {
 		container.attr("transform", d3.event.transform);
 	}
@@ -73,226 +58,346 @@ function drawHeat(user, attack, defense, map, mode) {
 	.on("zoom", zoomed);
 	
 	
-	function mouseOver() {
-		return function(d) {
-			d3.select(this).style("stroke", "black").style("stroke-opacity", 1);
-			var indices = d.i;
-			var counts = d.count;
-			prevSelect = d3.selectAll(".Opposing").filter(
-				function(b) {
-					var check = false;
-					for (x = 0; x < indices.length; x++) {
-						check |= b.i.indexOf(indices[x]) != -1;
+	function mouseOver(d) {
+		
+		if (mode == "Hotspot") {
+			var isElim = d3.select("path."+"i"+d.i+"j"+d.j).classed("Elimination"),
+				isDeath = d3.select("path."+"i"+d.i+"j"+d.j).classed("Death");
+			
+			if (isElim || isDeath) {
+				var subMode = isElim ? "Elimination" : "Death";
+				var node = hexData[subMode]["i"+d.i+"j"+d.j]
+				if (node) {
+					var totals = {};
+					var chain = node.chain;
+					for (var i = 0; i < chain.length; i++) {
+						var weight = chain[i].count;
+						var array = chain[i].array;
+						
+						for (var j = 0; j < array.length; j++) {
+							var l = array[j];
+							if (!totals[l]) {
+								totals[l] = {count: 1};
+							}
+							totals[l].count *= hexData["enemy"+subMode][l].count*weight;
+						}
 					}
-					return check; 
-				}).style("fill","red").style("fill-opacity", function(b) { return 2 * opacity(d) * opacity(b); });
-		}
-	}
-	
-	function mouseOut() {
-		return function(d) {
-			d3.select(this).style("stroke", "lightsteelblue").style("stroke-opacity", .4);
-			if (prevSelect) {
-				prevSelect.style("fill", "none");
-				prevSelect = null;
+					
+					for (path in totals) {
+						d3.select("path."+path)
+								.attr("opacity", 1 - totals[path].count)
+								.attr("fill", color(subMode, "enemy"));
+					}
+				}
 			}
 		}
-		
+		else {
+			var node = hexData[mode]["i"+d.i+"j"+d.j]
+			if (node) {
+				var totals = {};
+				var chain = node.chain;
+				
+				for (var i = 0; i < chain.length; i++) {
+					var weight = chain[i].count;
+					var array = chain[i].array;
+					
+					for (var j = 0; j < array.length; j++) {
+						var l = array[j];
+						if (!totals[l]) {
+							totals[l] = {count: 1};
+						}
+						totals[l].count *= hexData["enemy"+mode][l].count*weight;
+					}
+				}
+				
+				for (path in totals) {
+					d3.select("path."+path)
+							.attr("opacity", 1 - totals[path].count)
+							.attr("fill", color(mode, "enemy"));
+				}
+			}	
+		}
 	}
 	
-	var prevSelect = null;
-	
-	function click() {
+	function mouseOut(d) {
+		if (mode == "Hotspot") {
+			var dom = d3.select("path."+"i"+d.i+"j"+d.j)
+			
+			var isElim = dom.classed("Elimination"),
+				isDeath = dom.classed("Death");
+			
+			if (isElim || isDeath) {
+				var subMode = isElim ? "Elimination" : "Death";
+			
+				var node = hexData[subMode]["i"+d.i+"j"+d.j]
+			
+				if (node) {
+					var chain = node.chain;
+					
+					for (var i = 0; i < chain.length; i++) {
+						var array = chain[i].array;
+						
+						for (var j = 0; j < array.length; j++) {
+							var l = array[j];
+							
+							if (hexData["Death"][l] || hexData["Elimination"][l]) {
+								var path = d3.select("path."+l);
+								var elimValue = path.attr("elimValue");
+								var deathValue = path.attr("deathValue");
+						
+								path.attr("opacity", Math.abs(elimValue - deathValue))
+									.attr("fill", color(mode, "player", elimValue - 2*deathValue));
+							}
+							else {
+								d3.select("path."+l).attr("fill", "none");
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+			var node = hexData[mode]["i"+d.i+"j"+d.j]
+			
+			if (node) {
+				var chain = node.chain;
+				
+				for (var i = 0; i < chain.length; i++) {
+					var array = chain[i].array;
+					
+					for (var j = 0; j < array.length; j++) {
+						var l = array[j];
+						
+						if (hexData[mode][l]) {
+							d3.select("path."+l)
+								.attr("opacity", function(d) { return (1 - hexData[mode][l].count)})
+								.attr("fill", color(mode, "player"));
+						}
+						else {
+							d3.select("path."+l).attr("fill", "none");
+						}
+					}
+				}
+			}
+		}
 	}
 	
-	function opacity(d) {
-		return .4 * d.count.reduce(function(a,b) { return a + b }, 0);
-	}
 	
+	var topology = hexTopology(radius, width, height);
+
+	var projection = hexProjection(radius);
+
+	var path = d3.geoPath()
+		.projection(projection);
+
 	var svg = d3.select("#graph").append("svg")
-		.attr("width","100%")
-		.attr("height","100%")
-		.call(zoom);
+		.attr("width" , "100%")
+		.attr("height", "100%")
 		
-	var container = svg.append("g").attr("id","container");
-	
-	container.append("svg:image")
+	svg.append("svg:image")
 		.attr("height", 938)
 		.attr("width", 1916)
-		.attr("xlink:href","maps/Hanamura.jpg");
+		.attr("xlink:href","maps/Hanamura.jpg");	
+
+	var container = svg.append("g").attr("class", "container").attr("transform", "translate(" + ul_x + "," + ul_y + ")");
+	
+	var hexes = container.append("g")
+		.attr("class", "hexagon")
+		.selectAll("path")
+		.data(topology.objects.hexagons.geometries).enter();
+		
+	hexes.append("path")
+		.attr("d", function(d) { return path(topojson.feature(topology, d)); })
+		.attr("class", function(d) { return "i"+d.i+"j"+d.j; })
+		.on("click", function(d) { console.log(d); })
+		.on("mouseover", mouseOver)
+		.on("mouseout", mouseOut);
 		
 		
+	container.append("path")
+		.datum(topojson.mesh(topology, topology.objects.hexagons))
+		.attr("class", "mesh")
+		.attr("d", path);
+		
+
+	
 	d3.csv("data/"+user+"/data.csv", function(data) {
 		if(!attack || !defense) {
 			data = data.filter(function (d) { return d["side"] == (attack ? "Attack" : "Defense"); });
 		}
-		data = data.filter(function (d) { return  d["mode"] == mode; });
-		data = data.filter(function (d) { return hero[d["playerCharacter"]]; });
 		
-		
-		
-		var data1 = gridData();
-		var data2 = gridData();
-		
-		var dataAvatar= data.map(function(d) { return d["playerLocation"]; }); 
-		var dataOpposing = data.map(function(d) { return d["enemyLocation"]; });
-
-		dataAvatar.map(function(d,i) { 
-			var res = d.split("x").map(function(b) { return Math.floor(b/10) })
-			fade(d,i,"blue",1, res[0], res[1], data1, "Heat Avatar");	
-		});
-		
-		dataOpposing.map(function(d,i) {
-			var res = d.split("x").map(function(b) { return Math.floor(b/10) })
-			fade(d,i, "none", 1,res[0], res[1], data2, "Heat Opposing");
-		});
-		
-		
-		data1 = data1.map(function(p) { return p.filter(function(d) { return d.count.length > 0; }) });
-		data2 = data2.map(function(p) { return p.filter(function(d) { return d.count.length > 0; }) });
+		data.map(function(d) {
+			var h = hexData[d.mode];
+			var enemyH = hexData["enemy"+d.mode]
+			
+			var playerLoc = d["playerLocation"].split("x").map(function(b) { return parseInt(b); });
+			var enemyLoc = d["enemyLocation"].split("x").map(function(b) { return parseInt(b); });
+			
+			var playerHex = selectHex(playerLoc[0] - ul_x, playerLoc[1] - ul_y, radius, centerVal, edgeVal);
+			var enemyHex = selectHex(enemyLoc[0] - ul_x, enemyLoc[1] - ul_y, radius, centerVal, edgeVal);
+			
+			var links = [];
+			for (var i = 0; i < enemyHex.length; i++) {
+				var e = enemyHex[i]
+				if (!enemyH[e.selector]) {
+					enemyH[e.selector] = {count: 1};
+				}
+				enemyH[e.selector].count *= e.count;
 				
-		var row = container.append("g").selectAll(".row")
-			.data(data1)
-			.enter().append("g")
-			.attr("class","row");
+				links.push(e.selector);
+				
+			}
 			
-		var column = row.selectAll(".square")
-			.data(function (d) { return d; })
-			.enter().append("rect")
-			.attr("class", "square")
-			.attr("x", function(d) { return d.x; })
-			.attr("y", function(d) { return d.y; })
-			.attr("width", function(d) { return d.width; })
-			.attr("height", function(d) { return d.height; })
-			.style("stroke-width", ".5px")
-			.style("stroke", "lightsteelblue")
-			.style("fill", function(d) { return d.fill; })
-			.style("fill-opacity", function(d) { 
-				return opacity(d);
-			})
-			.attr("stroke-opacity", .4)
-			.attr("class", "Avatar")
-			.on("mouseover", mouseOver())
-			.on("mouseout", mouseOut())
-			.on("click", click())
-			.attr("pointer-events", "fill");
+			for(var i = 0; i < playerHex.length; i++) {
+				var p = playerHex[i];
+				if (!h[p.selector]) {
+					h[p.selector] = {count: 1, chain: []};
+				}
+				h[p.selector].chain.push({count: p.count, array: links});
+				h[p.selector].count *= p.count;
+			}
+		});
+		
+		if (mode == "Hotspot") {
+			var intersect = intersection(hexData["Death"], hexData["Elimination"]);
 			
-		var row1 = container.append("g").selectAll(".row")
-			.data(data2)
-			.enter().append("g")
-			.attr("class","row");
+			for (elim in hexData["Elimination"]) {
+				var value = 1 - hexData["Elimination"][elim].count
+				d3.select("path."+elim)
+					.attr("opacity", value)
+					.attr("elimValue", value)
+					.attr("fill", color(mode, "player", value))
+					.classed("Elimination", true)
+					.classed("Death", false);
+			}
 			
-		var column1 = row1.selectAll(".square")
-			.data(function (d) { return d; })
-			.enter().append("rect")
-			.attr("class", "square")
-			.attr("x", function(d) { return d.x; })
-			.attr("y", function(d) { return d.y; })
-			.attr("width", function(d) { return d.width; })
-			.attr("height", function(d) { return d.height; })
-			.style("stroke-width", ".5px")
-			.style("fill", function(d) { return d.fill; })
-			.style("fill-opacity", function(d) { 
-				return .4 * d.count.reduce(function(a,b) { return a + b }, 0);
-			})
-			.attr("class", "Opposing")
-			.attr("pointer-events", "none");
-
-		
-	});
-}
-
-function compare(user, attack, defense, map, mode) {
-	
-	
-	
-}
-
-function drawHotspots(user, attack, defense, map) {
-function zoomed() {
-		container.attr("transform", d3.event.transform);
-	}
-	
-	var zoom = d3.zoom()
-	.scaleExtent([.8,3])
-	.on("zoom", zoomed);
-	
-	
-	var prevSelect = null;
-
-	function opacity(d) {
-		return .4 * d.count.reduce(function(a,b) { return a + b }, 0);
-	}
-	
-	var svg = d3.select("#graph").append("svg")
-		.attr("width","100%")
-		.attr("height","100%")
-		.call(zoom);
-		
-	var container = svg.append("g").attr("id","container");
-	
-	container.append("svg:image")
-		.attr("height", 938)
-		.attr("width", 1916)
-		.attr("xlink:href","maps/Hanamura.jpg");
-	
-	svg.append("g").attr("class", "slider")
-		.attr("transform", "translate(" + 600 + "," + 700 + ")"); 
-		
-		
-	d3.csv("data/"+user+"/data.csv", function(data) {
-		if(!attack || !defense) {
-			data = data.filter(function (d) { return d["side"] == (attack ? "Attack" : "Defense"); });
+			
+			for (death in hexData["Death"]) {
+				
+				var value = 1 - hexData["Death"][death].count;
+				d3.select("path."+death)
+					.attr("opacity", value)
+					.attr("deathValue", value)
+					.attr("fill", color(mode, "player", -value))
+					.classed("Death", true)
+					.classed("Elimination", false);
+			}
+			for (var i = 0; i < intersect.length; i++) {
+				var x = intersect[i];
+				
+				var elimValue = d3.select("path."+x).attr("elimValue");
+				var deathValue = d3.select("path."+x).attr("deathValue");
+				var value = elimValue - 2*deathValue;
+				d3.select("path."+x)
+					.attr("opacity", Math.abs(elimValue - deathValue))
+					.attr("fill", color(mode, "player", value));
+					
+				
+			}
+			
+			
 		}
-		data = data.filter(function (d) { return hero[d["playerCharacter"]]; });
-			
-		var elims = data.filter(function(d) { return d["mode"] == "Elimination" }).map(function(d) { return d["playerLocation"]; });
-		var deaths = data.filter(function (d) { return d["mode"] == "Death" }).map(function(d) { return d["playerLocation"]; });
-			
-		var elimGrid = gridData();
-		var deathGrid = gridData();
-
-		elims.map(function(d,i) { 
-			var res = d.split("x").map(function(b) { return Math.floor(b/10) })
-			fade(d,i,"blue",1, res[0], res[1], elimGrid, "Heat Avatar");	
-		});
-		
-		deaths.map(function(d,i) {
-			var res = d.split("x").map(function(b) { return Math.floor(b/10) })
-			fade(d,i, "none", 1,res[0], res[1], deathGrid, "Heat Opposing");
-		});
-		
-		console.log(elims);
-		console.log(elimGrid);
-		
-		for (i = 0; i < elimGrid.length; i++) { 
-			for (j = 0; j < elimGrid[i].length; j++) {
-				var e = elimGrid[i][j];
-				var d = deathGrid[i][j];
-				var eCount = e.count.reduce(function(a,b) { return a + b }, 0);
-				var dCount = d.count.reduce(function(a,b) { return a + b }, 0);
-				
-				elimGrid[i][j] = {x: e.x, y: e.y, height: e.height, width: e.width, count: .5*eCount - dCount};
+		else {
+			for (path in hexData[mode]) {
+				d3.select("path."+path)
+					.attr("opacity", 1 - hexData[mode][path].count)
+					.attr("fill", color(mode, "player"));
 			}
 		}
-		
-		elimGrid = elimGrid.map(function(p) { return p.filter(function(d) { return d.count != 0 }) });
-				
-		var row = container.append("g").selectAll(".row")
-			.data(elimGrid)
-			.enter().append("g")
-			.attr("class","row");
-			
-		var column = row.selectAll(".square")
-			.data(function (d) { return d; })
-			.enter().append("rect")
-			.attr("class", "square")
-			.attr("x", function(d) { return d.x; })
-			.attr("y", function(d) { return d.y; })
-			.attr("width", function(d) { return d.width; })
-			.attr("height", function(d) { return d.height; })
-			.style("stroke", "none")
-			.style("fill", function(d) { return d.count < 0 ? "black" : "blue" })
-			.style("opacity", function(d) { return d.count < 0 ? -d.count : d.count; }); 
 	});
 }
+
+function intersection(o1, o2) {
+    return Object.keys(o1).filter({}.hasOwnProperty.bind(o2));
+}
+
+function hexTopology(radius, width, height) {
+	var dx = radius * 2 * Math.sin(Math.PI / 3),
+		dy = radius * 1.5, // height of hex
+		m = Math.ceil((height + radius) / dy) + 1, // vertical hexagon count (hide edges)
+		n = Math.ceil(width / dx) + 1, // horizontal hexagon count (hide edges)
+		geometries = [],
+		arcs = [];
+		
+	for (var j = -1; j <= m; ++j) {
+		for (var i = -1; i <= n; ++i) {
+			var y = j * 2,
+				x = (i + (j&1) / 2) * 2;
+				arcs.push([[x, y-1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1 , y + 1], [-1, 1]]);
+		}
+	}
+	
+	for ( var j = 0, q = 3; j < m; ++j , q += 6) {
+		for ( var i = 0; i < n; ++i, q+= 3) {
+			geometries.push({
+				type: "Polygon",
+				arcs: [[q, q + 1, q + 2, ~(q + (n + 2 - (j & 1)) * 3), ~(q - 2), ~(q - (n + 2 + (j & 1)) * 3 + 2)]],
+				fill: false,
+				j: j,
+				i: i
+			});
+		}	
+	}
+	
+	return {
+		transform: {translate: [0, 0], scale: [1, 1]},
+		objects: {hexagons: {type: "GeometryCollection", geometries: geometries}},
+		arcs: arcs
+	};
+}
+
+function hexProjection(radius) {
+	var dx = radius * 2 * Math.sin(Math.PI / 3),
+		dy = radius * 1.5;
+		
+	return {
+		stream: function(stream) {
+			return {
+				point: function(x, y) { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
+				lineStart: function() { stream.lineStart(); },
+				lineEnd: function() { stream.lineEnd(); },
+				polygonStart: function() { stream.polygonStart(); } ,
+				polygonEnd: function() { stream.polygonEnd(); }
+			};
+		}
+	}
+}
+
+function selectHex(x, y, radius, centerVal, edgeVal) {
+	 var ret = []
+	 var ids = hexIndex(x,y,radius);
+	 for (var i = -1; i < 2; i++) {
+		for (var j = -1; j < 2; j++) {
+			// HACK:
+			if (isEven(ids.j - 1)) {
+				if (!((i == 1 && j == -1) || (i == 1 && j == 1))) {
+					ret.push({selector: "i"+(ids.i+i)+"j"+(ids.j+j), count: (!i && !j) ? centerVal : edgeVal});
+				}
+			} 
+			else {
+				if (!((i == -1 && j == -1) || (i == -1 && j == 1))) {
+					ret.push({selector: "i"+(ids.i+i)+"j"+(ids.j+j), count: (!i && !j) ? centerVal : edgeVal});
+				}
+			}
+			
+		} 
+	 }
+	 return ret;
+}
+
+function hexIndex(x, y, radius) {
+	var dx = radius * 2 * Math.sin(Math.PI / 3),
+		dy = radius * 1.5;
+		
+	var i_a = (x - radius)/dx;
+	var i_b = (x + radius)/dx;
+	var j_a = (y + .5*radius)/dy;
+	var j_b = (y + 2.5*radius)/dy;
+	//return {i: Math.ceil(i_a), j: Math.ceil(j_a)}
+	return {i: (i_a - Math.ceil(i_a)) < (i_b - Math.floor(i_b)) ? Math.ceil(i_a) : i_b >> 0, j: (j_a - Math.ceil(j_a)) < (j_b - Math.floor(j_b)) ?  Math.ceil(j_a) : j_b >> 0};
+	
+}
+
+function isEven(n) {
+	return n === 0 || !!(n && !(n%2));
+}	
